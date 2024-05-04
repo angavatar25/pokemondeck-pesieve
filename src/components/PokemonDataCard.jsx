@@ -10,7 +10,12 @@ const PokemonDataCard = ({ pokemonData }) => {
         <div className="flex flex-wrap gap-2">
           {pokemonData.moves && pokemonData.moves.length > 0 ? (
             pokemonData.moves.slice(0,20).map((moves,i) => (
-              <p key={`index-${i}`} className="bg-red-500 p-2 text-white rounded text-xs">{moves.move.name}</p>
+              <p
+                key={`index-${i}`}
+                className="bg-red-500 p-2 text-white rounded text-xs"
+                >
+                  {moves.move.name}
+              </p>
             ))
           ) : null}
         </div>
@@ -20,7 +25,12 @@ const PokemonDataCard = ({ pokemonData }) => {
         <div className="flex flex-wrap gap-2">
           {pokemonData.types && pokemonData.types.length > 0 ? (
             pokemonData.types.map((types) => (
-              <p key={`types-${types.type.name}`} className="bg-red-500 text-white p-2 rounded text-xs">{types.type.name}</p>
+              <p
+                key={`types-${types.type.name}`}
+                className="bg-red-500 text-white p-2 rounded text-xs"
+              >
+                {types.type.name}
+              </p>
             ))
           ) : null}
         </div>
@@ -30,7 +40,12 @@ const PokemonDataCard = ({ pokemonData }) => {
         <div className="flex flex-wrap gap-2">
           {pokemonData.abilities && pokemonData.abilities.length > 0 ? (
             pokemonData.abilities.map((abilities) => (
-              <p key={`types-${abilities.ability.name}`} className="bg-red-500 text-white p-2 rounded text-xs">{abilities.ability.name}</p>
+              <p
+                key={`types-${abilities.ability.name}`}
+                className="bg-red-500 text-white p-2 rounded text-xs"
+              >
+                {abilities.ability.name}
+              </p>
             ))
           ) : null}
         </div>
