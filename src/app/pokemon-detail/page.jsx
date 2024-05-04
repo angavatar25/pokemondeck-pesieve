@@ -2,10 +2,15 @@
 
 import Link from "next/link";
 
-import { pokemonDetailQuery as query, pokemonListQuery } from "@/query/gqlQuery";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+
+import { pokemonDetailQuery as query, pokemonListQuery } from "@/query/gqlQuery";
+
 import PokemonComparison from "@/components/PokemonComparison";
+import PokemonDataCard from "@/components/PokemonDataCard";
+
+import { fetchPokemonCompareData } from "../../../hooks/fetchPokemonCompareData";
 
 const PokemonDetail = ({ searchParams }) => {
   const [modalComparison, setModalComparison] = useState(false);
@@ -17,45 +22,6 @@ const PokemonDetail = ({ searchParams }) => {
   const { data: pokemonList } = useSuspenseQuery(pokemonListQuery, { variables: { limit: 60 } });
 
   const { pokemon } = loadPokemonDetail.data;
-
-  const fetchPokemonCompareData = async (selected) => {
-    const url = new URL("https://graphql-pokeapi.graphcdn.app/");
-    url.searchParams.set("name", selected);
-
-    const { data } = await fetch(url,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          query: `query pokemon($name: String!) {
-            pokemon(name: $name) {
-              id
-              name
-              message
-              sprites {
-                front_default
-              }
-              moves {
-                move {
-                  name
-                }
-              }
-              types {
-                type {
-                  name
-                }
-              }
-            }
-          }`,
-          variables: { name: selected }
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => res.json());
-
-    return data.pokemon;
-  }
 
   const handleRedirect = async (selected) => {
     if (selected) {
@@ -76,7 +42,7 @@ const PokemonDetail = ({ searchParams }) => {
         onClickLink={handleRedirect}
       />
       <div className="grid grid-rows-3 grid-flow-col gap-4 h-screen">
-        <div className="row-span-3 flex justify-center items-center">
+        <div className="row-span-3 flex flex-col justify-center items-center gap-4">
           <img
             src={pokemon.sprites && pokemon.sprites.front_default}
             className="w-52"
@@ -96,53 +62,13 @@ const PokemonDetail = ({ searchParams }) => {
               <Link href={'/'}>Back to list</Link>
               <button onClick={() => setModalComparison(true)}>Compare</button>
             </div>
-            <div className="bg-white text-black p-4 w-full max-w-[384px] max-h-64 overflow-scroll">
-              <p className="text-center capitalize">{pokemon.name}</p>
-              <div className="mb-3">
-                <p className="mb-2">Moves</p>
-                <div className="flex flex-wrap gap-2">
-                  {pokemon.moves && pokemon.moves.length > 0 ? (
-                    pokemon.moves.slice(0,20).map((moves,i) => (
-                      <p key={`index-${i}`} className="bg-red-500 p-2 rounded text-xs">{moves.move.name}</p>
-                    ))
-                  ) : null}
-                </div>
-              </div>
-              <div className="mb-3">
-                <p className="mb-2">Types</p>
-                <div className="flex flex-wrap gap-2">
-                  {pokemon.types && pokemon.types.length > 0 ? (
-                    pokemon.types.map((types) => (
-                      <p key={`types-${types.type.name}`} className="bg-red-500 p-2 rounded text-xs">{types.type.name}</p>
-                    ))
-                  ) : null}
-                </div>
-              </div>
-            </div>
+            <PokemonDataCard
+              pokemonData={pokemon}
+            />
             {pokemonCompareName && pokemonCompareData ? (
-              <div className="bg-white text-black p-4 w-full max-w-[384px] max-h-64 overflow-scroll mt-4">
-                <p className="text-center capitalize">{pokemonCompareData.name}</p>
-                <div className="mb-3">
-                  <p className="mb-2">Moves</p>
-                  <div className="flex flex-wrap gap-2">
-                    {pokemonCompareData.moves && pokemonCompareData.moves.length > 0 ? (
-                      pokemonCompareData.moves.slice(0,20).map((moves,i) => (
-                        <p key={`index-${i}`} className="bg-red-500 p-2 rounded text-xs">{moves.move.name}</p>
-                      ))
-                    ) : null}
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <p className="mb-2">Types</p>
-                  <div className="flex flex-wrap gap-2">
-                    {pokemonCompareData.types && pokemonCompareData.types.length > 0 ? (
-                      pokemonCompareData.types.map((types) => (
-                        <p key={`types-${types.type.name}`} className="bg-red-500 p-2 rounded text-xs">{types.type.name}</p>
-                      ))
-                    ) : null}
-                  </div>
-                </div>
-              </div>
+              <PokemonDataCard
+                pokemonData={pokemonCompareData}
+              />
             ) : null}
           </div>
         </div>

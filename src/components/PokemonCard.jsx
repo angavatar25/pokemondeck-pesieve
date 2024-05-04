@@ -3,7 +3,7 @@ import Link from "next/link";
 const PokemonCard = ({ image, name }) => {
   return (
     <>
-      <Link href={{ pathname: '/pokemon-detail', query: { name }}}> 
+      <Link data-testid="pokemon-card" href={{ pathname: '/pokemon-detail', query: { name }}}> 
         <div
           className="bg-white text-black border border-orange-500 text-center"
         >
