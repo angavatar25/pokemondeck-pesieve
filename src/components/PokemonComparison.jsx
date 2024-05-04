@@ -6,6 +6,7 @@ import PokemonCardComparison from "./PokemonCardComparison";
 const PokemonComparison = ({ pokemonList, closeModalComparison, show, onClickLink }) => {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState(pokemonList.pokemons.results);
+
   const handleResult = (event) => {
     const { value } = event.target;
     setSearchValue(value);
@@ -20,6 +21,20 @@ const PokemonComparison = ({ pokemonList, closeModalComparison, show, onClickLin
       setSearchResult(pokemonList.pokemons.results)
     }
   };
+
+  
+  const handleSelectedChange = (e) => {
+    const selected = e.target.value;
+    const sortedList = [...searchResult];
+
+    if (selected === 'asc') {
+      sortedList.sort((a, b) => a.name.localeCompare(b.name));
+      setSearchResult(sortedList)
+    } else {
+      sortedList.sort((a, b) => b.name.localeCompare(a.name));
+      setSearchResult(sortedList);
+    }
+  }
 
   return (
     <>    
@@ -39,6 +54,13 @@ const PokemonComparison = ({ pokemonList, closeModalComparison, show, onClickLin
                 onChange={handleResult}
                 value={searchValue}
               />
+              <div className="flex gap-3 mb-3">
+                <label htmlFor="Sort">Sort By</label>
+                <select className="text-black rounded-sm" onChange={handleSelectedChange}>
+                  <option key={`index-asc`} value="asc">Ascending</option>
+                  <option key={`index-dsc`} value="dsc">Descending</option>
+                </select>
+              </div>
               <div className="grid grid-cols-4">
                 {pokemonList.pokemons && pokemonList.pokemons.results.length > 0 ? (
                   searchResult.map((pokemon) => (
