@@ -6,7 +6,9 @@ import { pokemonListQuery as query } from "@/query/gqlQuery";
 const Home = async () => {
   const { data } = await getClient().query({ query, variables: { limit: 120 } });
 
-  const PokemonCard = dynamic(() => import("@/components/PokemonCard"));
+  const PokemonCard = dynamic(() => import("@/components/PokemonCard", {
+    loading: () => <p>Loading...</p>
+  }));
   return (
     <>
       <div className="flex flex-wrap p-4">
