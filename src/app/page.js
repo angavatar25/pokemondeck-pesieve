@@ -4,7 +4,7 @@ import { getClient } from "../../lib/client";
 import { pokemonListQuery as query } from "@/query/gqlQuery";
 
 const Home = async () => {
-  const { data } = await getClient().query({ query, variables: { limit: 60 } });
+  const { data } = await getClient().query({ query, variables: { limit: 120 } });
 
   const PokemonCard = dynamic(() => import("@/components/PokemonCard"));
   return (

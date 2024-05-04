@@ -45,7 +45,7 @@ const PokemonComparison = ({ pokemonList, closeModalComparison, show, onClickLin
             className="absolute right-10 top-10"
           >Close</button>
           <div className="flex justify-center items-center w-full h-screen">
-            <div className="p-5 bg-gray-600 max-w-[500px] max-h-[350px] overflow-scroll w-full opacity-100">
+            <div className="p-5 bg-gray-600 max-w-[500px] max-h-[350px] overflow-scroll w-full rounded-md">
               <p className="text-xl mb-4">Choose Pokemon</p>
               <input
                 type="text"
