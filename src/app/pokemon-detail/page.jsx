@@ -19,7 +19,7 @@ const PokemonDetail = ({ searchParams }) => {
   const { name } = searchParams;
 
   const loadPokemonDetail = useSuspenseQuery(query, { variables: { name }});
-  const { data: pokemonList } = useSuspenseQuery(pokemonListQuery, { variables: { limit: 60 } });
+  const { data: pokemonList } = useSuspenseQuery(pokemonListQuery, { variables: { limit: 120 } });
 
   const { pokemon } = loadPokemonDetail.data;
 
