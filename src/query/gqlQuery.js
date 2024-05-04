@@ -5,7 +5,12 @@ export const pokemonDetailQuery = gql`
     pokemon(name: $name) {
       id
       name
-      message
+      status
+      abilities {
+        ability {
+          name
+        }
+      }
       sprites {
         front_default
       }
