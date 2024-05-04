@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import PokemonCard from "./PokemonCard";
 import PokemonCardComparison from "./PokemonCardComparison";
 
 const PokemonComparison = ({ pokemonList, closeModalComparison, show, onClickLink }) => {
