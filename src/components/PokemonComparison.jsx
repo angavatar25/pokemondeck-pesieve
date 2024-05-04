@@ -39,7 +39,7 @@ const PokemonComparison = ({ pokemonList, closeModalComparison, show, onClickLin
   return (
     <>    
       {show ? (
-        <div className="bg-black w-full min-h-screen fixed">
+        <div className="bg-pokemon-comparison w-full min-h-screen fixed">
           <button
             onClick={closeModalComparison}
             className="absolute right-10 top-10"
